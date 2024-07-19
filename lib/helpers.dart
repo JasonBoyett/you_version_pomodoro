@@ -1,3 +1,5 @@
+import 'pomodoroProps.dart';
+
 String displayMinutesTimer(int seconds) {
   int minutes = seconds ~/ 60;
   int remainingSeconds = seconds % 60;

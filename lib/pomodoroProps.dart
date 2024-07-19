@@ -92,6 +92,30 @@ class PomodoroModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  //getters
+  PomodoroStages getPreviosStage() => _previousStage;
+
+  // The figma model that this app is based on shows three stages that can be
+  // displayed: work, short break, and long break. But the model I am using to
+  // control the state of the app has five stages, the same as above plus preStart
+  // and paused. This function maps the five stages to the three stages that can
+  // be displayed in the UI.
+  PomodoroStages getDisplayedStage(PomodoroModel pomProps) {
+    switch (pomProps.currentStage) {
+      case PomodoroStages.work:
+        return PomodoroStages.work;
+      case PomodoroStages.shortBreak:
+        return PomodoroStages.shortBreak;
+      case PomodoroStages.longBreak:
+        return PomodoroStages.longBreak;
+      case PomodoroStages.preStart:
+        return PomodoroStages.work;
+      case PomodoroStages.paused:
+        return pomProps.getPreviosStage();
+    }
+  }
+
+  // control functions
   void reset() {
     breakCount = 0;
     secondsInStage = 0;
@@ -132,7 +156,7 @@ extension PomodoroExtension on PomodoroStages {
   String get name {
     switch (this) {
       case PomodoroStages.work:
-        return 'Work';
+        return 'Pomodoro';
       case PomodoroStages.shortBreak:
         return 'Short Break';
       case PomodoroStages.longBreak:

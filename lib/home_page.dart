@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'helpers.dart';
-import 'pomodoroProps.dart';
+import 'package:tomato_timer/model/pomodoro.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -12,7 +12,18 @@ class HomePage extends ConsumerWidget {
     var value = ref.watch(pomodoroProvider);
     return Scaffold(
       body: Center(
-        child: Column(
+          child: Stack(alignment: Alignment.center, children: [
+        SizedBox(
+          height: 300,
+          width: 300,
+          child: CircularProgressIndicator(
+            value: evaluateProgress(value),
+            strokeCap: StrokeCap.round,
+            strokeWidth: 8,
+            color: value.themeColor.color,
+          ),
+        ),
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -25,7 +36,7 @@ class HomePage extends ConsumerWidget {
             ),
           ],
         ),
-      ),
+      ])),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blueAccent,
         onPressed: () {

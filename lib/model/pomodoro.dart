@@ -6,13 +6,13 @@ const int secondsInMinute = 60;
 class PomodoroModel extends ChangeNotifier {
   int breakTimeShort = 5;
   int breakTimelong = 20;
-  int workTime = 25;
+  int workTime = 1;
   int breakCount = 0;
   int breaksTillLongBreak = 4;
   int secondsInStage = 0;
   PomodoroStages currentStage = PomodoroStages.preStart;
   PomodoroStages _previousStage = PomodoroStages.preStart;
-  PomodoroColors themeColor = PomodoroColors.blue;
+  PomodoroColors themeColor = PomodoroColors.red;
   PomodoroFonts themeFont = PomodoroFonts.sans;
 
   PomodoroModel();
@@ -170,9 +170,9 @@ extension PomodoroExtension on PomodoroStages {
 }
 
 enum PomodoroColors {
-  purple(Colors.purple),
-  blue(Colors.blue),
-  red(Colors.red);
+  purple(Color.fromARGB(255, 216, 129, 248)),
+  cyan(Color.fromARGB(255, 112, 243, 248)),
+  red(Color.fromARGB(255, 248, 112, 112));
 
   const PomodoroColors(this.color);
   final Color color;

@@ -18,16 +18,13 @@ class PomodoroModel extends ChangeNotifier {
   PomodoroFonts themeFont = PomodoroFonts.serrif;
 
   PomodoroModel();
-  PomodoroModel.withSettings(
-      // Don't blame me for this hideous formatting, it's the formatter's fault.
-      // I have format on save turned on. Apperently dart wants to look like this.
-      // Gross.
-      {this.breakTimeShort = 5,
-      this.breakTimelong = 20,
-      this.workTime = 25,
-      this.themeColor = PomodoroColors.cyan,
-      this.themeFont = PomodoroFonts.serrif});
-  //                                        ^ The formatter won't even let me put this paren on the next line
+  PomodoroModel.withSettings({
+    this.breakTimeShort = 5,
+    this.breakTimelong = 20,
+    this.workTime = 25,
+    this.themeColor = PomodoroColors.cyan,
+    this.themeFont = PomodoroFonts.serrif,
+  });
 
   /// sets the current pomodoro step to the next in the sequence
   /// if the timer is paused, it will not increment

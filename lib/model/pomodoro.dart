@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 
 const int secondsInMinute = 60;
 
 class PomodoroModel extends ChangeNotifier {
-  int breakTimeShort = 5;
-  int breakTimelong = 20;
-  int workTime = 1;
+  int breakTimeShort = 1; //5
+  int breakTimelong = 1; //20
+  int workTime = 1; //25
   int breakCount = 0;
   int breaksTillLongBreak = 4;
   int secondsInStage = 0;
   PomodoroStages currentStage = PomodoroStages.preStart;
   PomodoroStages _previousStage = PomodoroStages.preStart;
   PomodoroColors themeColor = PomodoroColors.red;
-  PomodoroFonts themeFont = PomodoroFonts.sans;
+  PomodoroFonts themeFont = PomodoroFonts.serrif;
 
   PomodoroModel();
 
@@ -179,10 +180,20 @@ enum PomodoroColors {
 }
 
 enum PomodoroFonts {
-  serrif('Roboto Slab'),
-  mono('Space Mono'),
-  sans('Kumbh Sans');
+  serrif,
+  mono,
+  sans;
+}
 
-  const PomodoroFonts(this.font);
-  final String font;
+extension PomodoroFontsExstension on PomodoroFonts {
+  TextStyle get font {
+    switch (this) {
+      case PomodoroFonts.serrif:
+        return GoogleFonts.robotoSlab();
+      case PomodoroFonts.mono:
+        return GoogleFonts.spaceMono();
+      case PomodoroFonts.sans:
+        return GoogleFonts.kumbhSans();
+    }
+  }
 }

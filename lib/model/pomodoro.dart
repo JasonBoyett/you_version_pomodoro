@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:tomato_timer/model/helper_types.dart';
 
 const int secondsInMinute = 60;
 
@@ -8,15 +8,16 @@ class PomodoroModel extends ChangeNotifier {
   static const int _breaksTillLongBreak = 4;
   PomodoroStages _previousStage = PomodoroStages.preStart;
 
-  int breakTimeShort = 5; //5
-  int breakTimelong = 20; //20
-  int workTime = 25; //25
+  int breakTimeShort = 5;
+  int breakTimelong = 20;
+  int workTime = 25;
   int breakCount = 0;
   int secondsInStage = 0;
   PomodoroStages currentStage = PomodoroStages.preStart;
   PomodoroColors themeColor = PomodoroColors.cyan;
   PomodoroFonts themeFont = PomodoroFonts.serrif;
 
+  // constructors
   PomodoroModel();
   PomodoroModel.withSettings({
     this.breakTimeShort = 5,
@@ -26,45 +27,7 @@ class PomodoroModel extends ChangeNotifier {
     this.themeFont = PomodoroFonts.serrif,
   });
 
-  /// sets the current pomodoro step to the next in the sequence
-  /// if the timer is paused, it will not increment
-  void _incrementStage() {
-    switch (currentStage) {
-      case PomodoroStages.preStart:
-        currentStage = PomodoroStages.work;
-        secondsInStage = workTime * secondsInMinute;
-        _previousStage = PomodoroStages.preStart;
-        break;
-      case PomodoroStages.work:
-        breakCount++;
-        if (breakCount >= _breaksTillLongBreak) {
-          currentStage = PomodoroStages.longBreak;
-          secondsInStage = breakTimelong * secondsInMinute;
-          _previousStage = PomodoroStages.work;
-          breakCount = 0;
-        } else {
-          currentStage = PomodoroStages.shortBreak;
-          _previousStage = PomodoroStages.work;
-          secondsInStage = breakTimeShort * secondsInMinute;
-        }
-        break;
-      case PomodoroStages.shortBreak:
-        currentStage = PomodoroStages.work;
-        secondsInStage = workTime * secondsInMinute;
-        _previousStage = PomodoroStages.shortBreak;
-        break;
-      case PomodoroStages.longBreak:
-        currentStage = PomodoroStages.work;
-        secondsInStage = workTime * secondsInMinute;
-        _previousStage = PomodoroStages.longBreak;
-        break;
-      case PomodoroStages.paused:
-        break;
-    }
-    notifyListeners();
-  }
-
-  //setters for the timer state and settings
+  // setters for the timer state
   void setStage(PomodoroStages stage) {
     currentStage = stage;
     notifyListeners();
@@ -85,6 +48,18 @@ class PomodoroModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // setters for the theme state
+  void setThemeColor(PomodoroColors color) {
+    themeColor = color;
+    notifyListeners();
+  }
+
+  void setThemeFont(PomodoroFonts font) {
+    themeFont = font;
+    notifyListeners();
+  }
+
+  // chonky boi setter for everything at once
   void set(int? workTime, int? breakTimeShort, int? breakTimelong) {
     if (workTime != null) {
       this.workTime = workTime;
@@ -98,18 +73,7 @@ class PomodoroModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  //setters for the theme state and settings
-  void setThemeColor(PomodoroColors color) {
-    themeColor = color;
-    notifyListeners();
-  }
-
-  void setThemeFont(PomodoroFonts font) {
-    themeFont = font;
-    notifyListeners();
-  }
-
-  //getters
+  // getters
   PomodoroStages getPreviosStage() => _previousStage;
 
   String getTimerString() {
@@ -160,6 +124,45 @@ class PomodoroModel extends ChangeNotifier {
   }
 
   // control functions
+
+  /// sets the current pomodoro step to the next in the sequence
+  /// if the timer is paused, it will not increment
+  void _incrementStage() {
+    switch (currentStage) {
+      case PomodoroStages.preStart:
+        currentStage = PomodoroStages.work;
+        secondsInStage = workTime * secondsInMinute;
+        _previousStage = PomodoroStages.preStart;
+        break;
+      case PomodoroStages.work:
+        breakCount++;
+        if (breakCount >= _breaksTillLongBreak) {
+          currentStage = PomodoroStages.longBreak;
+          secondsInStage = breakTimelong * secondsInMinute;
+          _previousStage = PomodoroStages.work;
+          breakCount = 0;
+        } else {
+          currentStage = PomodoroStages.shortBreak;
+          _previousStage = PomodoroStages.work;
+          secondsInStage = breakTimeShort * secondsInMinute;
+        }
+        break;
+      case PomodoroStages.shortBreak:
+        currentStage = PomodoroStages.work;
+        secondsInStage = workTime * secondsInMinute;
+        _previousStage = PomodoroStages.shortBreak;
+        break;
+      case PomodoroStages.longBreak:
+        currentStage = PomodoroStages.work;
+        secondsInStage = workTime * secondsInMinute;
+        _previousStage = PomodoroStages.longBreak;
+        break;
+      case PomodoroStages.paused:
+        break;
+    }
+    notifyListeners();
+  }
+
   void reset() {
     breakCount = 0;
     secondsInStage = 0;
@@ -229,34 +232,6 @@ extension PomodoroExtension on PomodoroStages {
         return 'start';
       case PomodoroStages.paused:
         return 'paused';
-    }
-  }
-}
-
-enum PomodoroColors {
-  purple(Color.fromARGB(255, 216, 129, 248)),
-  cyan(Color.fromARGB(255, 112, 243, 248)),
-  red(Color.fromARGB(255, 248, 112, 112));
-
-  const PomodoroColors(this.color);
-  final Color color;
-}
-
-enum PomodoroFonts {
-  serrif,
-  mono,
-  sans;
-}
-
-extension PomodoroFontsExstension on PomodoroFonts {
-  TextStyle get font {
-    switch (this) {
-      case PomodoroFonts.serrif:
-        return GoogleFonts.robotoSlab();
-      case PomodoroFonts.mono:
-        return GoogleFonts.spaceMono();
-      case PomodoroFonts.sans:
-        return GoogleFonts.kumbhSans();
     }
   }
 }

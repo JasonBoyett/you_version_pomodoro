@@ -5,9 +5,9 @@ import '../model/pomodoro.dart';
 
 Widget stageIndicator(PomodoroModel value) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(20.0),
     child: Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 22, 25, 50),
         borderRadius: BorderRadius.circular(80),
@@ -36,7 +36,7 @@ Widget _indicatorCell(PomodoroModel value, PomodoroStages stage) {
         borderRadius: BorderRadius.circular(80),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(22.0),
         child: Text(
           stage.name,
           style: TextStyle(

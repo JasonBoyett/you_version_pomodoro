@@ -39,9 +39,10 @@ Widget centerTimer(PomodoroModel model) {
               child: Text(
                 _ditermineDisplayText(model),
                 style: TextStyle(
-                  letterSpacing: 10,
+                  letterSpacing: 15,
                   color: const Color.fromARGB(255, 215, 224, 255),
                   fontFamily: model.themeFont.font.fontFamily,
+                  fontWeight: FontWeight.w600,
                 ),
                 textScaler: const TextScaler.linear(1.25),
               )),
@@ -87,15 +88,23 @@ Widget _backgroundCircle() {
       height: 365,
       child: Container(
         decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-              begin: Alignment.bottomRight,
-              end: Alignment.topCenter,
-              colors: [
-                Color.fromARGB(255, 46, 50, 90),
-                Color.fromARGB(255, 14, 17, 42),
-              ],
-            )),
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            begin: Alignment.bottomRight,
+            end: Alignment.topCenter,
+            colors: [
+              Color.fromARGB(255, 46, 50, 90),
+              Color.fromARGB(255, 14, 17, 42),
+            ],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(125, 29, 44, 90),
+              offset: Offset(-50, -50),
+              blurRadius: 50,
+            ),
+          ],
+        ),
       ),
     ),
     SizedBox(

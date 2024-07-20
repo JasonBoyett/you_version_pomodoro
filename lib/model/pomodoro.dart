@@ -5,22 +5,23 @@ import 'package:google_fonts/google_fonts.dart';
 const int secondsInMinute = 60;
 
 class PomodoroModel extends ChangeNotifier {
-  int breakTimeShort = 1; //5
-  int breakTimelong = 1; //20
+  static const int _breaksTillLongBreak = 4;
+  PomodoroStages _previousStage = PomodoroStages.preStart;
+
+  int breakTimeShort = 5; //5
+  int breakTimelong = 20; //20
   int workTime = 1; //25
   int breakCount = 0;
-  int breaksTillLongBreak = 4;
   int secondsInStage = 0;
   PomodoroStages currentStage = PomodoroStages.preStart;
-  PomodoroStages _previousStage = PomodoroStages.preStart;
-  PomodoroColors themeColor = PomodoroColors.red;
+  PomodoroColors themeColor = PomodoroColors.cyan;
   PomodoroFonts themeFont = PomodoroFonts.serrif;
 
   PomodoroModel();
 
   /// sets the current pomodoro step to the next in the sequence
   /// if the timer is paused, it will not increment
-  void incrementStage() {
+  void _incrementStage() {
     switch (currentStage) {
       case PomodoroStages.preStart:
         currentStage = PomodoroStages.work;
@@ -29,7 +30,7 @@ class PomodoroModel extends ChangeNotifier {
         break;
       case PomodoroStages.work:
         breakCount++;
-        if (breakCount >= breaksTillLongBreak) {
+        if (breakCount >= _breaksTillLongBreak) {
           currentStage = PomodoroStages.longBreak;
           secondsInStage = breakTimelong * secondsInMinute;
           _previousStage = PomodoroStages.work;
@@ -77,8 +78,16 @@ class PomodoroModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  setBreaksTillLongBreak(int breaks) {
-    breaksTillLongBreak = breaks;
+  void set(int? workTime, int? breakTimeShort, int? breakTimelong) {
+    if (workTime != null) {
+      this.workTime = workTime;
+    }
+    if (breakTimeShort != null) {
+      this.breakTimeShort = breakTimeShort;
+    }
+    if (breakTimelong != null) {
+      this.breakTimelong = breakTimelong;
+    }
     notifyListeners();
   }
 
@@ -96,23 +105,50 @@ class PomodoroModel extends ChangeNotifier {
   //getters
   PomodoroStages getPreviosStage() => _previousStage;
 
-  // The figma model that this app is based on shows three stages that can be
-  // displayed: work, short break, and long break. But the model I am using to
-  // control the state of the app has five stages, the same as above plus preStart
-  // and paused. This function maps the five stages to the three stages that can
-  // be displayed in the UI.
-  PomodoroStages getDisplayedStage(PomodoroModel pomProps) {
-    switch (pomProps.currentStage) {
+  String getTimerString() {
+    int seconds = currentStage == PomodoroStages.preStart
+        ? workTime * secondsInMinute
+        : secondsInStage;
+    int minutes = seconds ~/ 60;
+    int remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  /// returns the progress of the current stage as a double between 0 and 1
+  double getProgress() {
+    if (currentStage == PomodoroStages.preStart) {
+      return 1.0;
+    }
+    int stageMinutes = _evaluateStageTime();
+    double stageTime = stageMinutes.toDouble() * secondsInMinute;
+    return (secondsInStage / stageTime).clamp(0.0, 1.0);
+  }
+
+  int _evaluateStageTime() {
+    if (currentStage == PomodoroStages.preStart) {
+      return workTime;
+    }
+    if (currentStage == PomodoroStages.paused) {
+      switch (getPreviosStage()) {
+        case PomodoroStages.work:
+          return workTime;
+        case PomodoroStages.shortBreak:
+          return breakTimeShort;
+        case PomodoroStages.longBreak:
+          return breakTimelong;
+        default:
+          return 0;
+      }
+    }
+    switch (currentStage) {
       case PomodoroStages.work:
-        return PomodoroStages.work;
+        return workTime;
       case PomodoroStages.shortBreak:
-        return PomodoroStages.shortBreak;
+        return breakTimeShort;
       case PomodoroStages.longBreak:
-        return PomodoroStages.longBreak;
-      case PomodoroStages.preStart:
-        return PomodoroStages.work;
-      case PomodoroStages.paused:
-        return pomProps.getPreviosStage();
+        return breakTimelong;
+      default:
+        return 0;
     }
   }
 
@@ -145,9 +181,29 @@ class PomodoroModel extends ChangeNotifier {
         secondsInStage--;
         notifyListeners();
       } else {
-        incrementStage();
+        _incrementStage();
       }
     });
+  }
+
+  // The figma spec that this app is based on shows three stages that can be
+  // displayed: work, short break, and long break. But the model I am using to
+  // control the state of the app has five stages, the same as above plus preStart
+  // and paused. This function maps the five stages to the three stages that can
+  // be displayed in the UI.
+  PomodoroStages getDisplayedStage(PomodoroModel pomProps) {
+    switch (pomProps.currentStage) {
+      case PomodoroStages.work:
+        return PomodoroStages.work;
+      case PomodoroStages.shortBreak:
+        return PomodoroStages.shortBreak;
+      case PomodoroStages.longBreak:
+        return PomodoroStages.longBreak;
+      case PomodoroStages.preStart:
+        return PomodoroStages.work;
+      case PomodoroStages.paused:
+        return pomProps.getPreviosStage();
+    }
   }
 }
 
@@ -157,15 +213,15 @@ extension PomodoroExtension on PomodoroStages {
   String get name {
     switch (this) {
       case PomodoroStages.work:
-        return 'Pomodoro';
+        return 'pomodoro';
       case PomodoroStages.shortBreak:
-        return 'Short Break';
+        return 'short break';
       case PomodoroStages.longBreak:
-        return 'Long Break';
+        return 'long break';
       case PomodoroStages.preStart:
-        return 'Start';
+        return 'start';
       case PomodoroStages.paused:
-        return 'Paused';
+        return 'paused';
     }
   }
 }

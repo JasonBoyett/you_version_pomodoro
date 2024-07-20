@@ -4,7 +4,7 @@ import '../model/pomodoro.dart';
 
 Widget stageIndicator(PomodoroModel value) {
   return Padding(
-    padding: const EdgeInsets.all(12.0),
+    padding: const EdgeInsets.all(8.0),
     child: Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -26,7 +26,7 @@ Widget stageIndicator(PomodoroModel value) {
 
 Widget _indicatorCell(PomodoroModel value, PomodoroStages stage) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(2.0),
     child: Container(
       decoration: BoxDecoration(
         color: _determineDisplayStage(value) == stage
@@ -35,7 +35,7 @@ Widget _indicatorCell(PomodoroModel value, PomodoroStages stage) {
         borderRadius: BorderRadius.circular(80),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(20.0),
         child: Text(
           stage.name,
           style: TextStyle(

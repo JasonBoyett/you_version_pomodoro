@@ -35,7 +35,7 @@ class HomePage extends ConsumerWidget {
               onPressed: () => showDialog(
                   context: context,
                   builder: (context) {
-                    return settingsDialog(model);
+                    return const SettingsDialog();
                   }),
               child: const Icon(
                 Icons.settings,

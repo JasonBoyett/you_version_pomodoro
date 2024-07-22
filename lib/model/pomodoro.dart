@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:tomato_timer/model/helper_types.dart';
+import 'package:tomato_timer/model/settings.dart';
 
 const int secondsInMinute = 60;
 
 class PomodoroModel extends ChangeNotifier {
   static const int _breaksTillLongBreak = 4;
   PomodoroStages _previousStage = PomodoroStages.preStart;
+  int _breakCount = 0;
+  Duration _timerDuration = const Duration(seconds: 0);
+  Timer _timer = Timer(Duration.zero, () {});
 
   int breakTimeShort = 5;
-  int breakTimelong = 20;
+  int breakTimeLong = 20;
   int workTime = 25;
-  int breakCount = 0;
-  int secondsInStage = 0;
   PomodoroStages currentStage = PomodoroStages.preStart;
   PomodoroColors themeColor = PomodoroColors.cyan;
   PomodoroFonts themeFont = PomodoroFonts.serrif;
 
   // constructors
   PomodoroModel();
-  PomodoroModel.withSettings({
+  PomodoroModel.custom({
     this.breakTimeShort = 5,
-    this.breakTimelong = 20,
+    this.breakTimeLong = 20,
     this.workTime = 25,
     this.themeColor = PomodoroColors.cyan,
     this.themeFont = PomodoroFonts.serrif,
@@ -30,21 +32,43 @@ class PomodoroModel extends ChangeNotifier {
   // setters for the timer state
   void setStage(PomodoroStages stage) {
     currentStage = stage;
+    _timerDuration = (() {
+      switch (stage) {
+        case PomodoroStages.work:
+          return Duration(minutes: workTime);
+        case PomodoroStages.longBreak:
+          return Duration(minutes: breakTimeLong);
+        case PomodoroStages.shortBreak:
+          return Duration(minutes: breakTimeShort);
+        default:
+          return const Duration(seconds: 0);
+      }
+    })();
+
     notifyListeners();
   }
 
   void setWorkTime(int minutes) {
     workTime = minutes;
+    if (currentStage == PomodoroStages.work) {
+      _timerDuration = Duration(minutes: minutes);
+    }
     notifyListeners();
   }
 
   setBreakTimeShort(int minutes) {
     breakTimeShort = minutes;
+    if (currentStage == PomodoroStages.shortBreak) {
+      _timerDuration = Duration(minutes: minutes);
+    }
     notifyListeners();
   }
 
   setBreakTimeLong(int minutes) {
-    breakTimelong = minutes;
+    breakTimeLong = minutes;
+    if (currentStage == PomodoroStages.longBreak) {
+      _timerDuration = Duration(minutes: minutes);
+    }
     notifyListeners();
   }
 
@@ -60,15 +84,22 @@ class PomodoroModel extends ChangeNotifier {
   }
 
   // chonky boi setter for everything at once
-  void set(int? workTime, int? breakTimeShort, int? breakTimelong) {
+  void set(int? workTime, int? breakTimeShort, int? breakTimelong,
+      PomodoroColors? color, PomodoroFonts? font) {
     if (workTime != null) {
-      this.workTime = workTime;
+      setWorkTime(workTime);
     }
     if (breakTimeShort != null) {
-      this.breakTimeShort = breakTimeShort;
+      setBreakTimeShort(breakTimeShort);
     }
     if (breakTimelong != null) {
-      this.breakTimelong = breakTimelong;
+      setBreakTimeLong(breakTimelong);
+    }
+    if (color != null) {
+      setThemeColor(color);
+    }
+    if (font != null) {
+      setThemeFont(font);
     }
     notifyListeners();
   }
@@ -77,11 +108,11 @@ class PomodoroModel extends ChangeNotifier {
   PomodoroStages getPreviosStage() => _previousStage;
 
   String getTimerString() {
-    int seconds = currentStage == PomodoroStages.preStart
-        ? workTime * secondsInMinute
-        : secondsInStage;
-    int minutes = seconds ~/ 60;
-    int remainingSeconds = seconds % 60;
+    if (currentStage == PomodoroStages.preStart) {
+      return '$workTime:${'00'.padLeft(2, '0')}';
+    }
+    int minutes = _timerDuration.inMinutes;
+    int remainingSeconds = _timerDuration.inSeconds.remainder(secondsInMinute);
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
@@ -92,7 +123,7 @@ class PomodoroModel extends ChangeNotifier {
     }
     int stageMinutes = _evaluateStageTime();
     double stageTime = stageMinutes.toDouble() * secondsInMinute;
-    return (secondsInStage / stageTime).clamp(0.0, 1.0);
+    return (_timerDuration.inSeconds / stageTime).clamp(0.0, 1.0);
   }
 
   int _evaluateStageTime() {
@@ -106,7 +137,7 @@ class PomodoroModel extends ChangeNotifier {
         case PomodoroStages.shortBreak:
           return breakTimeShort;
         case PomodoroStages.longBreak:
-          return breakTimelong;
+          return breakTimeLong;
         default:
           return 0;
       }
@@ -117,7 +148,7 @@ class PomodoroModel extends ChangeNotifier {
       case PomodoroStages.shortBreak:
         return breakTimeShort;
       case PomodoroStages.longBreak:
-        return breakTimelong;
+        return breakTimeLong;
       default:
         return 0;
     }
@@ -131,30 +162,30 @@ class PomodoroModel extends ChangeNotifier {
     switch (currentStage) {
       case PomodoroStages.preStart:
         currentStage = PomodoroStages.work;
-        secondsInStage = workTime * secondsInMinute;
+        _timerDuration = Duration(minutes: workTime);
         _previousStage = PomodoroStages.preStart;
         break;
       case PomodoroStages.work:
-        breakCount++;
-        if (breakCount >= _breaksTillLongBreak) {
+        _breakCount++;
+        if (_breakCount >= _breaksTillLongBreak) {
           currentStage = PomodoroStages.longBreak;
-          secondsInStage = breakTimelong * secondsInMinute;
+          _timerDuration = Duration(minutes: breakTimeLong);
           _previousStage = PomodoroStages.work;
-          breakCount = 0;
+          _breakCount = 0;
         } else {
           currentStage = PomodoroStages.shortBreak;
           _previousStage = PomodoroStages.work;
-          secondsInStage = breakTimeShort * secondsInMinute;
+          _timerDuration = Duration(minutes: breakTimeShort);
         }
         break;
       case PomodoroStages.shortBreak:
         currentStage = PomodoroStages.work;
-        secondsInStage = workTime * secondsInMinute;
+        _timerDuration = Duration(minutes: workTime);
         _previousStage = PomodoroStages.shortBreak;
         break;
       case PomodoroStages.longBreak:
         currentStage = PomodoroStages.work;
-        secondsInStage = workTime * secondsInMinute;
+        _timerDuration = Duration(minutes: workTime);
         _previousStage = PomodoroStages.longBreak;
         break;
       case PomodoroStages.paused:
@@ -164,8 +195,9 @@ class PomodoroModel extends ChangeNotifier {
   }
 
   void reset() {
-    breakCount = 0;
-    secondsInStage = 0;
+    _timer.cancel();
+    _breakCount = 0;
+    _timerDuration = const Duration(seconds: 0);
     currentStage = PomodoroStages.preStart;
     notifyListeners();
   }
@@ -183,12 +215,12 @@ class PomodoroModel extends ChangeNotifier {
   }
 
   void start() {
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (currentStage == PomodoroStages.paused) {
         return;
       }
-      if (secondsInStage > 0) {
-        secondsInStage--;
+      if (_timerDuration.inSeconds > 0) {
+        _timerDuration -= const Duration(seconds: 1);
         notifyListeners();
       } else {
         _incrementStage();

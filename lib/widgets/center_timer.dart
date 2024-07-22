@@ -52,35 +52,6 @@ Widget centerTimer(PomodoroModel model) {
   );
 }
 
-void _centerButtonAction(PomodoroModel value) {
-  switch (value.currentStage) {
-    case PomodoroStages.paused:
-      value.resume();
-      break;
-    case PomodoroStages.preStart:
-      {
-        value.start();
-        break;
-      }
-    default:
-      {
-        value.pause();
-        break;
-      }
-  }
-}
-
-String _ditermineDisplayText(PomodoroModel value) {
-  switch (value.currentStage) {
-    case PomodoroStages.paused:
-      return 'RESUME';
-    case PomodoroStages.preStart:
-      return 'START';
-    default:
-      return 'PAUSE';
-  }
-}
-
 Widget _backgroundCircle() {
   return Stack(alignment: Alignment.center, children: [
     SizedBox(
@@ -118,4 +89,35 @@ Widget _backgroundCircle() {
       ),
     ),
   ]);
+}
+
+// helper functions
+
+void _centerButtonAction(PomodoroModel value) {
+  switch (value.currentStage) {
+    case PomodoroStages.paused:
+      value.resume();
+      break;
+    case PomodoroStages.preStart:
+      {
+        value.start();
+        break;
+      }
+    default:
+      {
+        value.pause();
+        break;
+      }
+  }
+}
+
+String _ditermineDisplayText(PomodoroModel value) {
+  switch (value.currentStage) {
+    case PomodoroStages.paused:
+      return 'RESUME';
+    case PomodoroStages.preStart:
+      return 'START';
+    default:
+      return 'PAUSE';
+  }
 }

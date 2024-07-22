@@ -4,30 +4,28 @@ import 'package:tomato_timer/model/helper_types.dart';
 import '../model/pomodoro.dart';
 
 Widget stageIndicator(PomodoroModel value) {
-  return Padding(
-    padding: const EdgeInsets.all(20.0),
-    child: Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 22, 25, 50),
-        borderRadius: BorderRadius.circular(80),
-      ),
-      width: 400,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _indicatorCell(value, PomodoroStages.work),
-          _indicatorCell(value, PomodoroStages.shortBreak),
-          _indicatorCell(value, PomodoroStages.longBreak),
-        ],
-      ),
+  return Container(
+    margin: const EdgeInsets.only(top: 12, bottom: 12, left: 2, right: 2),
+    padding: const EdgeInsets.only(top: 12, bottom: 12, left: 2, right: 2),
+    decoration: BoxDecoration(
+      color: const Color.fromARGB(255, 22, 25, 50),
+      borderRadius: BorderRadius.circular(80),
+    ),
+    width: 400,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _indicatorCell(value, PomodoroStages.work),
+        _indicatorCell(value, PomodoroStages.shortBreak),
+        _indicatorCell(value, PomodoroStages.longBreak),
+      ],
     ),
   );
 }
 
 Widget _indicatorCell(PomodoroModel value, PomodoroStages stage) {
   return Padding(
-    padding: const EdgeInsets.all(2.0),
+    padding: const EdgeInsets.all(1.0),
     child: Container(
       decoration: BoxDecoration(
         color: _determineDisplayStage(value) == stage

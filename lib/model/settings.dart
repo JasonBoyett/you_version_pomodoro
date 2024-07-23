@@ -20,16 +20,25 @@ class SettingsModel extends ChangeNotifier {
 
   // setters
   void setWorkTime(int minutes) {
+    if (minutes < 1) {
+      return;
+    }
     workTime = minutes;
     notifyListeners();
   }
 
   void setBreakTimeShort(int minutes) {
+    if (minutes < 1) {
+      return;
+    }
     breakTimeShort = minutes;
     notifyListeners();
   }
 
   void setBreakTimeLong(int minutes) {
+    if (minutes < 1) {
+      return;
+    }
     breakTimeLong = minutes;
     notifyListeners();
   }
@@ -89,17 +98,16 @@ class SettingsModel extends ChangeNotifier {
   void decrementStageTime(PomodoroStages stage) {
     switch (stage) {
       case PomodoroStages.work:
-        workTime--;
+        setWorkTime(workTime - 1);
         break;
       case PomodoroStages.shortBreak:
-        breakTimeShort--;
+        setBreakTimeShort(breakTimeShort - 1);
         break;
       case PomodoroStages.longBreak:
-        breakTimeLong--;
+        setBreakTimeLong(breakTimeLong - 1);
         break;
       default:
         break;
     }
-    notifyListeners();
   }
 }

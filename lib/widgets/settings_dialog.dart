@@ -20,6 +20,7 @@ import '../providers/context.dart';
 var settingsOpen = false;
 
 final settingsProvider = getSettingsProvider();
+final PreferenceLoader loader = PreferenceLoader();
 
 class SettingsDialog extends ConsumerWidget {
   const SettingsDialog({super.key});
@@ -61,7 +62,6 @@ class SettingsDialog extends ConsumerWidget {
                   foregroundColor: Colors.white,
                 ),
                 onPressed: () {
-                  var loader = PreferenceLoader();
                   pomodoroModel.setWorkTime(
                     settingsModel.getStageTime(
                       PomodoroStages.work,
@@ -82,6 +82,12 @@ class SettingsDialog extends ConsumerWidget {
                   );
                   pomodoroModel.setThemeColor(settingsModel.themeColor);
                   pomodoroModel.setThemeFont(settingsModel.themeFont);
+                  loader.save(pomodoroModel);
+                  Navigator.of(context).pop();
+                },
+                onLongPress: () {
+                  settingsModel.hardReset();
+                  pomodoroModel.preferencesReset();
                   loader.save(pomodoroModel);
                   Navigator.of(context).pop();
                 },

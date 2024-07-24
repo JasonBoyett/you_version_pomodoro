@@ -118,4 +118,14 @@ class SettingsModel extends ChangeNotifier {
         break;
     }
   }
+
+  void hardReset() {
+    setWorkTime(25);
+    setBreakTimeShort(5);
+    setBreakTimeLong(20);
+    setIsShowingSeconds(true);
+    setColor(PomodoroColors.cyan);
+    setFont(PomodoroFonts.serrif);
+    notifyListeners();
+  }
 }

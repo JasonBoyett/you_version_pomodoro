@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:tomato_timer/model/helper_types.dart';
+import 'package:tomato_timer/providers/haptics.dart';
 
 const int secondsInMinute = 60;
 
@@ -256,6 +257,7 @@ class PomodoroModel extends ChangeNotifier {
         currentStage = PomodoroStages.work;
         _remainingTime = Duration(minutes: workTime);
         _previousStage = PomodoroStages.preStart;
+        VibrationProvider.defaultVibration();
         break;
       case PomodoroStages.work:
         _breakCount++;
@@ -268,17 +270,20 @@ class PomodoroModel extends ChangeNotifier {
           currentStage = PomodoroStages.shortBreak;
           _previousStage = PomodoroStages.work;
           _remainingTime = Duration(minutes: breakTimeShort);
+          VibrationProvider.defaultVibration();
         }
         break;
       case PomodoroStages.shortBreak:
         currentStage = PomodoroStages.work;
         _remainingTime = Duration(minutes: workTime);
         _previousStage = PomodoroStages.shortBreak;
+        VibrationProvider.defaultVibration();
         break;
       case PomodoroStages.longBreak:
         currentStage = PomodoroStages.work;
         _remainingTime = Duration(minutes: workTime);
         _previousStage = PomodoroStages.longBreak;
+        VibrationProvider.defaultVibration();
         break;
       case PomodoroStages.paused:
         break;
@@ -294,6 +299,20 @@ class PomodoroModel extends ChangeNotifier {
     _workTimePreAdjusted = workTime;
     _breakTimeShortPreAdjusted = breakTimeShort;
     _breakTimeLongPreAdjusted = breakTimeLong;
+    notifyListeners();
+  }
+
+  void preferencesReset() {
+    _timer.cancel();
+    _breakCount = 0;
+    _remainingTime = const Duration(seconds: 0);
+    currentStage = PomodoroStages.preStart;
+    workTime = 25;
+    breakTimeShort = 5;
+    breakTimeLong = 20;
+    themeColor = PomodoroColors.cyan;
+    themeFont = PomodoroFonts.serrif;
+    isShowingSeconds = true;
     notifyListeners();
   }
 

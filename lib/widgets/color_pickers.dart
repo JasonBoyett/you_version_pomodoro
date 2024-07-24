@@ -21,8 +21,8 @@ Widget _colorButton(PomodoroColors color, SettingsModel settingsModel) {
     child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         child: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8),

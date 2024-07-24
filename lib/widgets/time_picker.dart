@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tomato_timer/model/pomodoro.dart';
 import 'package:tomato_timer/model/settings.dart';
+
+import '../model/helper_types.dart';
 
 Widget timePicker(PomodoroStages stage, SettingsModel settingsModel) {
   return Container(

@@ -6,6 +6,7 @@ class SettingsModel extends ChangeNotifier {
   int breakTimeShort = 5;
   int breakTimeLong = 20;
   int workTime = 25;
+  bool isShowingSeconds = true;
   PomodoroColors themeColor = PomodoroColors.cyan;
   PomodoroFonts themeFont = PomodoroFonts.serrif;
 
@@ -16,6 +17,7 @@ class SettingsModel extends ChangeNotifier {
     this.workTime = 25,
     this.themeColor = PomodoroColors.cyan,
     this.themeFont = PomodoroFonts.serrif,
+    this.isShowingSeconds = true,
   });
 
   // setters
@@ -53,12 +55,18 @@ class SettingsModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setIsShowingSeconds(bool value) {
+    isShowingSeconds = value;
+    notifyListeners();
+  }
+
   void setFromPomodorModel(PomodoroModel model) {
     workTime = model.workTime;
     breakTimeShort = model.breakTimeShort;
     breakTimeLong = model.breakTimeLong;
     themeColor = model.themeColor;
     themeFont = model.themeFont;
+    isShowingSeconds = model.isShowingSecconds;
     notifyListeners();
   }
 

@@ -26,23 +26,30 @@ Widget stageIndicator(PomodoroModel value) {
 Widget _indicatorCell(PomodoroModel value, PomodoroStages stage) {
   return Padding(
     padding: const EdgeInsets.all(1.0),
-    child: Container(
-      decoration: BoxDecoration(
-        color: _determineDisplayStage(value) == stage
-            ? value.themeColor.color
-            : Colors.transparent,
-        borderRadius: BorderRadius.circular(80),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(22.0),
-        child: Text(
-          stage.name,
-          style: TextStyle(
-            fontFamily: value.themeFont.font.fontFamily,
-            color: stage == _determineDisplayStage(value)
-                ? const Color.fromARGB(255, 22, 25, 50)
-                : const Color.fromARGB(255, 215, 224, 255),
-            fontWeight: FontWeight.bold,
+    child: GestureDetector(
+      onTap: () {
+        if (value.currentStage != PomodoroStages.preStart) {
+          value.setStage(stage);
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: _determineDisplayStage(value) == stage
+              ? value.themeColor.color
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(80),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(22.0),
+          child: Text(
+            stage.name,
+            style: TextStyle(
+              fontFamily: value.themeFont.font.fontFamily,
+              color: stage == _determineDisplayStage(value)
+                  ? const Color.fromARGB(255, 22, 25, 50)
+                  : const Color.fromARGB(255, 215, 224, 255),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

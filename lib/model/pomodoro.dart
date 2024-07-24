@@ -11,13 +11,19 @@ class PomodoroModel extends ChangeNotifier {
   Duration _remainingTime = const Duration(seconds: 0);
   Timer _timer = Timer(Duration.zero, () {});
 
-  int _breakTimeShortAdjusted = 5;
-  int _breakTimeLongAdjusted = 20;
-  int _workTimeAdjusted = 25;
+  // These three variables are used to keep state in sync
+  // when a setting is changed while the timer is running.
+  // They are used to store the new values until the timer
+  // reaches the next stage.
+  // Then the new values are applied.
+  int _breakTimeShortPreAdjusted = 5;
+  int _breakTimeLongPreAdjusted = 20;
+  int _workTimePreAdjusted = 25;
 
   int breakTimeShort = 5;
   int breakTimeLong = 20;
   int workTime = 25;
+  bool isShowingSecconds = true;
   PomodoroStages currentStage = PomodoroStages.preStart;
   PomodoroColors themeColor = PomodoroColors.cyan;
   PomodoroFonts themeFont = PomodoroFonts.serrif;
@@ -32,25 +38,7 @@ class PomodoroModel extends ChangeNotifier {
     this.themeFont = PomodoroFonts.serrif,
   });
 
-  // setters for the timer state
-  void setStage(PomodoroStages stage) {
-    currentStage = stage;
-    _remainingTime = (() {
-      switch (stage) {
-        case PomodoroStages.work:
-          return Duration(minutes: workTime);
-        case PomodoroStages.longBreak:
-          return Duration(minutes: breakTimeLong);
-        case PomodoroStages.shortBreak:
-          return Duration(minutes: breakTimeShort);
-        default:
-          return const Duration(seconds: 0);
-      }
-    })();
-
-    notifyListeners();
-  }
-
+  // background update functions
   Future _backgroundUpdateWorkTime(int minutes) async {
     while (currentStage != PomodoroStages.work) {
       await Future.delayed(const Duration(seconds: 1));
@@ -81,6 +69,30 @@ class PomodoroModel extends ChangeNotifier {
     breakTimeLong = minutes;
   }
 
+  // setters for the timer state
+  void setStage(PomodoroStages stage) {
+    currentStage = stage;
+    _remainingTime = (() {
+      switch (stage) {
+        case PomodoroStages.work:
+          return Duration(minutes: workTime);
+        case PomodoroStages.longBreak:
+          return Duration(minutes: breakTimeLong);
+        case PomodoroStages.shortBreak:
+          return Duration(minutes: breakTimeShort);
+        default:
+          return const Duration(seconds: 0);
+      }
+    })();
+
+    notifyListeners();
+  }
+
+  void setIsShowingSeconds(bool value) {
+    isShowingSecconds = value;
+    notifyListeners();
+  }
+
   void setWorkTime(int minutes) {
     if (minutes < 1) {
       throw Exception();
@@ -93,7 +105,7 @@ class PomodoroModel extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    _workTimeAdjusted = minutes;
+    _workTimePreAdjusted = minutes;
     workTime = minutes;
     notifyListeners();
   }
@@ -109,7 +121,7 @@ class PomodoroModel extends ChangeNotifier {
       _backgroundUpdateShortBreakTime(minutes);
       return;
     }
-    _breakTimeShortAdjusted = minutes;
+    _breakTimeShortPreAdjusted = minutes;
     breakTimeShort = minutes;
     notifyListeners();
     return;
@@ -126,7 +138,7 @@ class PomodoroModel extends ChangeNotifier {
       _backgroundUpdateLongBreakTime(minutes);
       return;
     }
-    _breakTimeLongAdjusted = minutes;
+    _breakTimeLongPreAdjusted = minutes;
     breakTimeLong = minutes;
     notifyListeners();
   }
@@ -169,13 +181,20 @@ class PomodoroModel extends ChangeNotifier {
 
   String getTimerString() {
     if (currentStage == PomodoroStages.preStart) {
-      return '$workTime:${'00'.padLeft(2, '0')}';
+      return isShowingSecconds
+          ? '$workTime:${'00'.padLeft(2, '0')}'
+          : '$workTime'.padLeft(2, '0');
     }
     if (_remainingTime.inSeconds < 0) {
       throw Exception('Timer reached Negative value');
     }
     int minutes = _remainingTime.inMinutes;
     int remainingSeconds = _remainingTime.inSeconds.remainder(secondsInMinute);
+    if (!isShowingSecconds) {
+      return minutes > 0
+          ? '$minutes'.padLeft(2, '0')
+          : '$remainingSeconds'.padLeft(2, '0');
+    }
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }
 
@@ -196,22 +215,22 @@ class PomodoroModel extends ChangeNotifier {
     if (currentStage == PomodoroStages.paused) {
       switch (getPreviosStage()) {
         case PomodoroStages.work:
-          return _workTimeAdjusted;
+          return _workTimePreAdjusted;
         case PomodoroStages.shortBreak:
-          return _breakTimeShortAdjusted;
+          return _breakTimeShortPreAdjusted;
         case PomodoroStages.longBreak:
-          return _breakTimeLongAdjusted;
+          return _breakTimeLongPreAdjusted;
         default:
           return 0;
       }
     }
     switch (currentStage) {
       case PomodoroStages.work:
-        return _workTimeAdjusted;
+        return _workTimePreAdjusted;
       case PomodoroStages.shortBreak:
-        return _breakTimeShortAdjusted;
+        return _breakTimeShortPreAdjusted;
       case PomodoroStages.longBreak:
-        return _breakTimeLongAdjusted;
+        return _breakTimeLongPreAdjusted;
       default:
         return 0;
     }
@@ -262,9 +281,9 @@ class PomodoroModel extends ChangeNotifier {
     _breakCount = 0;
     _remainingTime = const Duration(seconds: 0);
     currentStage = PomodoroStages.preStart;
-    _workTimeAdjusted = workTime;
-    _breakTimeShortAdjusted = breakTimeShort;
-    _breakTimeLongAdjusted = breakTimeLong;
+    _workTimePreAdjusted = workTime;
+    _breakTimeShortPreAdjusted = breakTimeShort;
+    _breakTimeLongPreAdjusted = breakTimeLong;
     notifyListeners();
   }
 
@@ -311,25 +330,6 @@ class PomodoroModel extends ChangeNotifier {
         return PomodoroStages.work;
       case PomodoroStages.paused:
         return pomProps.getPreviosStage();
-    }
-  }
-}
-
-enum PomodoroStages { work, shortBreak, longBreak, preStart, paused }
-
-extension PomodoroExtension on PomodoroStages {
-  String get name {
-    switch (this) {
-      case PomodoroStages.work:
-        return 'pomodoro';
-      case PomodoroStages.shortBreak:
-        return 'short break';
-      case PomodoroStages.longBreak:
-        return 'long break';
-      case PomodoroStages.preStart:
-        return 'start';
-      case PomodoroStages.paused:
-        return 'paused';
     }
   }
 }

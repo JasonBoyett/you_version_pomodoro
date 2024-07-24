@@ -28,3 +28,22 @@ extension PomodoroFontsExstension on PomodoroFonts {
     }
   }
 }
+
+enum PomodoroStages { work, shortBreak, longBreak, preStart, paused }
+
+extension PomodoroExtension on PomodoroStages {
+  String get name {
+    switch (this) {
+      case PomodoroStages.work:
+        return 'pomodoro';
+      case PomodoroStages.shortBreak:
+        return 'short break';
+      case PomodoroStages.longBreak:
+        return 'long break';
+      case PomodoroStages.preStart:
+        return 'start';
+      case PomodoroStages.paused:
+        return 'paused';
+    }
+  }
+}

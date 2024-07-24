@@ -4,15 +4,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:tomato_timer/model/pomodoro.dart';
 import 'package:tomato_timer/model/settings.dart';
+import 'package:tomato_timer/widgets/boolean_picker.dart';
 import 'package:tomato_timer/widgets/color_pickers.dart';
 import 'package:tomato_timer/widgets/font_pickers.dart';
 import 'package:tomato_timer/widgets/home_page.dart';
 import 'package:tomato_timer/widgets/time_picker.dart';
 
+import '../model/helper_types.dart';
+import '../providers/context.dart';
+
 // I am using this because I want certain behavior on
 // the first build of the settings dialog
 // but not on subsequent builds.
 var settingsOpen = false;
+
+final settingsProvider = getSettingsProvider();
 
 class SettingsDialog extends ConsumerWidget {
   const SettingsDialog({super.key});
@@ -68,6 +74,9 @@ class SettingsDialog extends ConsumerWidget {
                     settingsModel.getStageTime(
                       PomodoroStages.shortBreak,
                     ),
+                  );
+                  pomodoroModel.setIsShowingSeconds(
+                    settingsModel.isShowingSeconds,
                   );
                   pomodoroModel.setThemeColor(settingsModel.themeColor);
                   pomodoroModel.setThemeFont(settingsModel.themeFont);
@@ -125,7 +134,7 @@ class SettingsDialog extends ConsumerWidget {
                 )),
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(4.0),
                 child: IconButton(
                   color: const Color.fromARGB(255, 30, 33, 63),
                   onPressed: () {
@@ -161,6 +170,21 @@ class SettingsDialog extends ConsumerWidget {
           ),
           _sectionTitle("color"),
           Center(child: colorPickers(settingsModel)),
+          const Divider(
+            color: Color.fromRGBO(227, 225, 225, 1),
+            thickness: 2,
+            indent: 25,
+            endIndent: 25,
+          ),
+          _sectionTitle("display"),
+          booleanPicker(
+            value: settingsModel.isShowingSeconds,
+            onToggle: (value) {
+              settingsModel.setIsShowingSeconds(value);
+            },
+            color: settingsModel.themeColor.color,
+            text: "Show seconds",
+          ),
         ],
       ),
     );
@@ -190,6 +214,3 @@ Widget _sectionTitle(String title) {
     ),
   );
 }
-
-final settingsProvider =
-    ChangeNotifierProvider<SettingsModel>((ref) => SettingsModel());

@@ -23,7 +23,7 @@ class PomodoroModel extends ChangeNotifier {
   int breakTimeShort = 5;
   int breakTimeLong = 20;
   int workTime = 25;
-  bool isShowingSecconds = true;
+  bool isShowingSeconds = true;
   PomodoroStages currentStage = PomodoroStages.preStart;
   PomodoroColors themeColor = PomodoroColors.cyan;
   PomodoroFonts themeFont = PomodoroFonts.serrif;
@@ -36,6 +36,7 @@ class PomodoroModel extends ChangeNotifier {
     this.workTime = 25,
     this.themeColor = PomodoroColors.cyan,
     this.themeFont = PomodoroFonts.serrif,
+    this.isShowingSeconds = true,
   });
 
   // background update functions
@@ -89,7 +90,7 @@ class PomodoroModel extends ChangeNotifier {
   }
 
   void setIsShowingSeconds(bool value) {
-    isShowingSecconds = value;
+    isShowingSeconds = value;
     notifyListeners();
   }
 
@@ -155,22 +156,31 @@ class PomodoroModel extends ChangeNotifier {
   }
 
   // chonky boi setter for everything at once
-  void set(int? workTime, int? breakTimeShort, int? breakTimelong,
-      PomodoroColors? color, PomodoroFonts? font) {
+  void set({
+    int? workTime,
+    int? breakTimeShort,
+    int? breakTimeLong,
+    PomodoroColors? color,
+    PomodoroFonts? font,
+    bool? isShowingSeconds,
+  }) {
     if (workTime != null) {
       setWorkTime(workTime);
     }
     if (breakTimeShort != null) {
       setBreakTimeShort(breakTimeShort);
     }
-    if (breakTimelong != null) {
-      setBreakTimeLong(breakTimelong);
+    if (breakTimeLong != null) {
+      setBreakTimeLong(breakTimeLong);
     }
     if (color != null) {
       setThemeColor(color);
     }
     if (font != null) {
       setThemeFont(font);
+    }
+    if (isShowingSeconds != null) {
+      setIsShowingSeconds(isShowingSeconds);
     }
     notifyListeners();
   }
@@ -181,7 +191,7 @@ class PomodoroModel extends ChangeNotifier {
 
   String getTimerString() {
     if (currentStage == PomodoroStages.preStart) {
-      return isShowingSecconds
+      return isShowingSeconds
           ? '$workTime:${'00'.padLeft(2, '0')}'
           : '$workTime'.padLeft(2, '0');
     }
@@ -190,7 +200,7 @@ class PomodoroModel extends ChangeNotifier {
     }
     int minutes = _remainingTime.inMinutes;
     int remainingSeconds = _remainingTime.inSeconds.remainder(secondsInMinute);
-    if (!isShowingSecconds) {
+    if (!isShowingSeconds) {
       return minutes > 0
           ? '$minutes'.padLeft(2, '0')
           : '$remainingSeconds'.padLeft(2, '0');

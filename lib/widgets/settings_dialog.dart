@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:tomato_timer/model/pomodoro.dart';
+import 'package:tomato_timer/model/preference_loader.dart';
 import 'package:tomato_timer/model/settings.dart';
 import 'package:tomato_timer/widgets/boolean_picker.dart';
 import 'package:tomato_timer/widgets/color_pickers.dart';
@@ -60,6 +61,7 @@ class SettingsDialog extends ConsumerWidget {
                   foregroundColor: Colors.white,
                 ),
                 onPressed: () {
+                  var loader = PreferenceLoader();
                   pomodoroModel.setWorkTime(
                     settingsModel.getStageTime(
                       PomodoroStages.work,
@@ -80,6 +82,7 @@ class SettingsDialog extends ConsumerWidget {
                   );
                   pomodoroModel.setThemeColor(settingsModel.themeColor);
                   pomodoroModel.setThemeFont(settingsModel.themeFont);
+                  loader.save(pomodoroModel);
                   Navigator.of(context).pop();
                 },
                 child: Text(

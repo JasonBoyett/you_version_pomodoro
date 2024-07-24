@@ -66,7 +66,7 @@ class SettingsModel extends ChangeNotifier {
     breakTimeLong = model.breakTimeLong;
     themeColor = model.themeColor;
     themeFont = model.themeFont;
-    isShowingSeconds = model.isShowingSecconds;
+    isShowingSeconds = model.isShowingSeconds;
     notifyListeners();
   }
 

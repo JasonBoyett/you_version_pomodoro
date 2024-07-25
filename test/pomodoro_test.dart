@@ -145,7 +145,6 @@ void main() {
     test('PomodoroModel switches state from work to short break correctly', () {
       var model = PomodoroModel.custom(workTime: 1, breakTimeShort: 1);
       model.setStage(PomodoroStages.work);
-      model.setTestEnvironment(true);
       fakeAsync((async) {
         model.start();
         async.elapse(const Duration(minutes: 1, seconds: 1));
@@ -157,7 +156,6 @@ void main() {
     test('PomodoroModel switches state from short break to work correctly', () {
       var model = PomodoroModel.custom(workTime: 1, breakTimeShort: 1);
       model.setStage(PomodoroStages.shortBreak);
-      model.setTestEnvironment(true);
       fakeAsync((async) {
         model.start();
         async.elapse(const Duration(minutes: 1, seconds: 1));
@@ -172,7 +170,6 @@ void main() {
         breakTimeShort: 1,
         breakTimeLong: 1,
       );
-      model.setTestEnvironment(true);
       model.setStage(PomodoroStages.work);
       fakeAsync((async) {
         model.start();
@@ -197,7 +194,6 @@ void main() {
         breakTimeShort: 1,
         breakTimeLong: 1,
       );
-      model.setTestEnvironment(true);
       model.setStage(PomodoroStages.longBreak);
       fakeAsync((async) {
         model.start();
@@ -210,7 +206,6 @@ void main() {
 
     test('PomodoroModel returns proper timerString for given time', () {
       var model = PomodoroModel.custom(workTime: 3, breakTimeShort: 2);
-      model.setTestEnvironment(true);
       fakeAsync((async) {
         model.start();
         // I'm offsetting by 1 second because the timer

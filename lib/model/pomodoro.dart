@@ -20,6 +20,7 @@ class PomodoroModel extends ChangeNotifier {
   int _breakTimeShortPreAdjusted = 5;
   int _breakTimeLongPreAdjusted = 20;
   int _workTimePreAdjusted = 25;
+  bool _isTestEnvironment = false;
 
   int breakTimeShort = 5;
   int breakTimeLong = 20;
@@ -145,6 +146,10 @@ class PomodoroModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setTestEnvironment(bool value) {
+    _isTestEnvironment = value;
+  }
+
   // setters for the theme state
   void setThemeColor(PomodoroColors color) {
     themeColor = color;
@@ -257,7 +262,7 @@ class PomodoroModel extends ChangeNotifier {
         currentStage = PomodoroStages.work;
         _remainingTime = Duration(minutes: workTime);
         _previousStage = PomodoroStages.preStart;
-        VibrationProvider.defaultVibration();
+        if (!_isTestEnvironment) VibrationProvider.defaultVibration();
         break;
       case PomodoroStages.work:
         _breakCount++;
@@ -270,20 +275,20 @@ class PomodoroModel extends ChangeNotifier {
           currentStage = PomodoroStages.shortBreak;
           _previousStage = PomodoroStages.work;
           _remainingTime = Duration(minutes: breakTimeShort);
-          VibrationProvider.defaultVibration();
+          if (!_isTestEnvironment) VibrationProvider.defaultVibration();
         }
         break;
       case PomodoroStages.shortBreak:
         currentStage = PomodoroStages.work;
         _remainingTime = Duration(minutes: workTime);
         _previousStage = PomodoroStages.shortBreak;
-        VibrationProvider.defaultVibration();
+        if (!_isTestEnvironment) VibrationProvider.defaultVibration();
         break;
       case PomodoroStages.longBreak:
         currentStage = PomodoroStages.work;
         _remainingTime = Duration(minutes: workTime);
         _previousStage = PomodoroStages.longBreak;
-        VibrationProvider.defaultVibration();
+        if (!_isTestEnvironment) VibrationProvider.defaultVibration();
         break;
       case PomodoroStages.paused:
         break;

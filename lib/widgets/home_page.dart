@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tomato_timer/model/pomodoro.dart';
 import 'package:tomato_timer/providers/context.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
 import 'package:tomato_timer/widgets/center_timer.dart';
 import 'package:tomato_timer/widgets/stage_indicator.dart';
@@ -15,21 +17,22 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     var model = ref.watch(pomodoroProvider);
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 30, 33, 63),
+      backgroundColor: PomodoroUI.textMidDark,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.all(25.0),
+          Padding(
+            padding: const EdgeInsets.all(25.0),
             child: Text(
               "pomodoro",
-              textScaler: TextScaler.linear(2),
+              textScaler: const TextScaler.linear(2),
               style: TextStyle(
-                  color: Color.fromARGB(255, 215, 224, 255),
-                  fontWeight: FontWeight.bold),
+                color: PomodoroUI.textLight,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          stageIndicator(model),
+          stageIndicator(model, context),
           centerTimer(model),
           Padding(
             padding: const EdgeInsets.only(top: 100.0),
@@ -39,9 +42,9 @@ class HomePage extends ConsumerWidget {
                   builder: (context) {
                     return const SettingsDialog();
                   }),
-              child: const Icon(
+              child: Icon(
                 Icons.settings,
-                color: Color.fromARGB(255, 215, 224, 255),
+                color: PomodoroUI.textLight,
                 size: 40.0,
               ),
             ),

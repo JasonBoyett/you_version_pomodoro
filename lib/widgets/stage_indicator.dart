@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_timer/model/helper_types.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
 import '../model/pomodoro.dart';
 
-Widget stageIndicator(PomodoroModel value) {
+Widget stageIndicator(PomodoroModel value, BuildContext context) {
   return Container(
     margin: const EdgeInsets.only(top: 12, bottom: 12, left: 2, right: 2),
     padding: const EdgeInsets.only(top: 12, bottom: 12, left: 2, right: 2),
     decoration: BoxDecoration(
-      color: const Color.fromARGB(255, 22, 25, 50),
+      color: PomodoroUI.backgroundColor,
       borderRadius: BorderRadius.circular(80),
     ),
     width: 400,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _indicatorCell(value, PomodoroStages.work),
-        _indicatorCell(value, PomodoroStages.shortBreak),
-        _indicatorCell(value, PomodoroStages.longBreak),
+        _indicatorCell(value, PomodoroStages.work, context),
+        _indicatorCell(value, PomodoroStages.shortBreak, context),
+        _indicatorCell(value, PomodoroStages.longBreak, context),
       ],
     ),
   );
 }
 
-Widget _indicatorCell(PomodoroModel value, PomodoroStages stage) {
+Widget _indicatorCell(
+  PomodoroModel value,
+  PomodoroStages stage,
+  BuildContext context,
+) {
   return Padding(
     padding: const EdgeInsets.all(1.0),
     child: GestureDetector(
@@ -43,11 +48,12 @@ Widget _indicatorCell(PomodoroModel value, PomodoroStages stage) {
           padding: const EdgeInsets.all(22.0),
           child: Text(
             stage.name,
+            textScaler: PomodoroUI.stageIndicatorFontScaler(context),
             style: TextStyle(
               fontFamily: value.themeFont.font.fontFamily,
               color: stage == _determineDisplayStage(value)
-                  ? const Color.fromARGB(255, 22, 25, 50)
-                  : const Color.fromARGB(255, 215, 224, 255),
+                  ? PomodoroUI.textDark
+                  : PomodoroUI.textLight,
               fontWeight: FontWeight.bold,
             ),
           ),

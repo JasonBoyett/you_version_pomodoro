@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tomato_timer/model/settings.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
 import '../model/helper_types.dart';
 
@@ -17,7 +18,7 @@ Widget timePicker(PomodoroStages stage, SettingsModel settingsModel) {
               style: TextStyle(
                 fontStyle: GoogleFonts.kumbhSans().fontStyle,
                 fontWeight: FontWeight.bold,
-                color: const Color.fromARGB(255, 30, 33, 63),
+                color: PomodoroUI.textMidDark,
               ),
             ),
           ),
@@ -42,7 +43,7 @@ Widget _picker({
       width: 140,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 239, 241, 250),
+          color: PomodoroUI.grey,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -53,7 +54,7 @@ Widget _picker({
                 child: Text(
                   settingsModel.getStageTime(stage).toString(),
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 30, 33, 63),
+                    color: PomodoroUI.textDark,
                     fontStyle: GoogleFonts.kumbhSans().fontStyle,
                     fontWeight: FontWeight.bold,
                   ),
@@ -112,7 +113,7 @@ Widget _arrowButton(IconData icon, void Function() onPressed) {
   return GestureDetector(
     onTap: onPressed,
     child: Icon(
-      color: const Color.fromARGB(75, 30, 33, 63),
+      color: PomodoroUI.textMidDark,
       size: 20,
       icon,
     ),

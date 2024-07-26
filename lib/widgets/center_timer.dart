@@ -1,6 +1,7 @@
 import 'package:tomato_timer/model/helper_types.dart';
 import 'package:tomato_timer/model/pomodoro.dart';
 import 'package:flutter/material.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
 Widget centerTimer(PomodoroModel model) {
   return Padding(
@@ -23,7 +24,7 @@ Widget centerTimer(PomodoroModel model) {
           Center(
             child: Text(
               style: TextStyle(
-                color: const Color.fromARGB(255, 215, 224, 255),
+                color: PomodoroUI.textLight,
                 fontFamily: model.themeFont.font.fontFamily,
                 fontWeight: FontWeight.bold,
               ),
@@ -40,7 +41,7 @@ Widget centerTimer(PomodoroModel model) {
                 _ditermineDisplayText(model),
                 style: TextStyle(
                   letterSpacing: 15,
-                  color: const Color.fromARGB(255, 215, 224, 255),
+                  color: PomodoroUI.textLight,
                   fontFamily: model.themeFont.font.fontFamily,
                   fontWeight: FontWeight.w600,
                 ),
@@ -58,22 +59,11 @@ Widget _backgroundCircle() {
       width: 365,
       height: 365,
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: LinearGradient(
-            begin: Alignment.bottomRight,
-            end: Alignment.topCenter,
-            colors: [
-              Color.fromARGB(255, 46, 50, 90),
-              Color.fromARGB(255, 14, 17, 42),
-            ],
-          ),
+          gradient: PomodoroUI.timerGradient,
           boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(125, 29, 44, 90),
-              offset: Offset(-50, -50),
-              blurRadius: 50,
-            ),
+            PomodoroUI.timerShadow,
           ],
         ),
       ),

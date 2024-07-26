@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
 Widget booleanPicker({
   required void Function(bool) onToggle,
@@ -18,7 +19,7 @@ Widget booleanPicker({
             style: TextStyle(
               fontStyle: GoogleFonts.kumbhSans().fontStyle,
               fontWeight: FontWeight.bold,
-              color: const Color.fromARGB(255, 30, 33, 63),
+              color: PomodoroUI.textMidDark,
             ),
           ),
         ),

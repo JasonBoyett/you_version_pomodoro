@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
 enum PomodoroColors {
-  purple(Color.fromARGB(255, 216, 129, 248)),
-  cyan(Color.fromARGB(255, 112, 243, 248)),
-  red(Color.fromARGB(255, 248, 112, 112));
+  purple,
+  cyan,
+  red;
+}
 
-  const PomodoroColors(this.color);
-  final Color color;
+extension PomodoroColorsExtension on PomodoroColors {
+  Color get color {
+    switch (this) {
+      case PomodoroColors.purple:
+        return PomodoroUI.purple;
+      case PomodoroColors.cyan:
+        return PomodoroUI.cyan;
+      case PomodoroColors.red:
+        return PomodoroUI.red;
+    }
+  }
 }
 
 enum PomodoroFonts {
@@ -20,11 +30,11 @@ extension PomodoroFontsExstension on PomodoroFonts {
   TextStyle get font {
     switch (this) {
       case PomodoroFonts.serrif:
-        return GoogleFonts.robotoSlab();
+        return PomodoroUI.serif;
       case PomodoroFonts.mono:
-        return GoogleFonts.spaceMono();
+        return PomodoroUI.mono;
       case PomodoroFonts.sans:
-        return GoogleFonts.kumbhSans();
+        return PomodoroUI.sans;
     }
   }
 }

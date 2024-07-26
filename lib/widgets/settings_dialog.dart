@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tomato_timer/model/pomodoro.dart';
 import 'package:tomato_timer/model/preference_loader.dart';
 import 'package:tomato_timer/model/settings.dart';
+import 'package:tomato_timer/providers/ui.dart';
 import 'package:tomato_timer/widgets/boolean_picker.dart';
 import 'package:tomato_timer/widgets/color_pickers.dart';
 import 'package:tomato_timer/widgets/font_pickers.dart';
@@ -135,7 +136,7 @@ class SettingsDialog extends ConsumerWidget {
                     child: Text(
                   "Settings",
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 22, 25, 50),
+                    color: PomodoroUI.textDark,
                     fontStyle: GoogleFonts.kumbhSans().fontStyle,
                     fontWeight: FontWeight.bold,
                   ),
@@ -145,7 +146,7 @@ class SettingsDialog extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: IconButton(
-                  color: const Color.fromARGB(255, 30, 33, 63),
+                  color: PomodoroUI.textMidDark,
                   onPressed: () {
                     settingsOpen = false;
                     Navigator.of(context).pop();
@@ -155,32 +156,32 @@ class SettingsDialog extends ConsumerWidget {
               ),
             ],
           ),
-          const Divider(
-            color: Color.fromRGBO(227, 225, 225, 1),
+          Divider(
+            color: PomodoroUI.dividerColor,
             thickness: 2,
           ),
           _sectionTitle("time (minutes)"),
           timePicker(PomodoroStages.work, settingsModel),
           timePicker(PomodoroStages.shortBreak, settingsModel),
           timePicker(PomodoroStages.longBreak, settingsModel),
-          const Divider(
-            color: Color.fromRGBO(227, 225, 225, 1),
+          Divider(
+            color: PomodoroUI.dividerColor,
             thickness: 2,
             indent: 25,
             endIndent: 25,
           ),
           _sectionTitle("font"),
-          Center(child: fontPickers(settingsModel)),
-          const Divider(
-            color: Color.fromRGBO(227, 225, 225, 1),
+          Center(child: fontPickers(settingsModel, context)),
+          Divider(
+            color: PomodoroUI.dividerColor,
             thickness: 2,
             indent: 25,
             endIndent: 25,
           ),
           _sectionTitle("color"),
-          Center(child: colorPickers(settingsModel)),
-          const Divider(
-            color: Color.fromRGBO(227, 225, 225, 1),
+          Center(child: colorPickers(settingsModel, context)),
+          Divider(
+            color: PomodoroUI.dividerColor,
             thickness: 2,
             indent: 25,
             endIndent: 25,
@@ -214,7 +215,7 @@ Widget _sectionTitle(String title) {
         title.toUpperCase(),
         style: TextStyle(
           letterSpacing: 5,
-          color: const Color.fromARGB(255, 22, 25, 50),
+          color: PomodoroUI.backgroundColor,
           fontStyle: GoogleFonts.kumbhSans().fontStyle,
           fontWeight: FontWeight.bold,
         ),

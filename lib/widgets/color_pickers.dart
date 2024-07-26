@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_timer/model/helper_types.dart';
 import 'package:tomato_timer/model/settings.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
-Widget colorPickers(SettingsModel settingsModel) {
+Widget colorPickers(SettingsModel settingsModel, BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      _colorButton(PomodoroColors.red, settingsModel),
-      _colorButton(PomodoroColors.cyan, settingsModel),
-      _colorButton(PomodoroColors.purple, settingsModel),
+      _colorButton(PomodoroColors.red, settingsModel, context),
+      _colorButton(PomodoroColors.cyan, settingsModel, context),
+      _colorButton(PomodoroColors.purple, settingsModel, context),
     ],
   );
 }
 
-Widget _colorButton(PomodoroColors color, SettingsModel settingsModel) {
+Widget _colorButton(
+  PomodoroColors color,
+  SettingsModel settingsModel,
+  BuildContext context,
+) {
   return GestureDetector(
     onTap: () {
       settingsModel.setColor(color);
@@ -21,8 +26,8 @@ Widget _colorButton(PomodoroColors color, SettingsModel settingsModel) {
     child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
-        width: 40,
-        height: 40,
+        width: PomodoroUI.circularPickerSize(context),
+        height: PomodoroUI.circularPickerSize(context),
         child: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8),

@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:tomato_timer/model/helper_types.dart';
 import 'package:tomato_timer/model/settings.dart';
+import 'package:tomato_timer/providers/ui.dart';
 
-Widget fontPickers(SettingsModel settingsModel) {
+Widget fontPickers(SettingsModel settingsModel, BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      _fontButton(PomodoroFonts.serrif, settingsModel),
-      _fontButton(PomodoroFonts.mono, settingsModel),
-      _fontButton(PomodoroFonts.sans, settingsModel),
+      _fontButton(PomodoroFonts.serrif, settingsModel, context),
+      _fontButton(PomodoroFonts.mono, settingsModel, context),
+      _fontButton(PomodoroFonts.sans, settingsModel, context),
     ],
   );
 }
 
-Widget _fontButton(PomodoroFonts font, SettingsModel settingsModel) {
+Widget _fontButton(
+  PomodoroFonts font,
+  SettingsModel settingsModel,
+  BuildContext context,
+) {
   return GestureDetector(
     onTap: () {
       settingsModel.setFont(font);
@@ -21,15 +26,15 @@ Widget _fontButton(PomodoroFonts font, SettingsModel settingsModel) {
     child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
-        width: 40,
-        height: 40,
+        width: PomodoroUI.circularPickerSize(context),
+        height: PomodoroUI.circularPickerSize(context),
         child: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: settingsModel.themeFont == font
-                ? Colors.black
-                : const Color.fromARGB(255, 239, 241, 250),
+                ? PomodoroUI.black
+                : PomodoroUI.grey,
             borderRadius: BorderRadius.circular(100),
           ),
           child: Text(

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tomato_timer/model/preference_loader.dart';
-import 'package:tomato_timer/model/settings.dart';
+import 'package:tomato_timer/models/preference_loader.dart';
+import 'package:tomato_timer/models/settings.dart';
 
-import '../model/pomodoro.dart';
+import '../models/pomodoro.dart';
 
 ChangeNotifierProvider<PomodoroModel> getPomodoroProvider() {
   return ChangeNotifierProvider<PomodoroModel>((ref) {

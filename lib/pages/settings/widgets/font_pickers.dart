@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tomato_timer/model/helper_types.dart';
-import 'package:tomato_timer/model/settings.dart';
-import 'package:tomato_timer/providers/ui.dart';
+import 'package:tomato_timer/models/models.dart';
+import 'package:tomato_timer/providers/providers.dart';
 
 Widget fontPickers(SettingsModel settingsModel, BuildContext context) {
   return Row(
@@ -26,8 +25,8 @@ Widget _fontButton(
     child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
-        width: PomodoroUI.circularPickerSize(context),
-        height: PomodoroUI.circularPickerSize(context),
+        width: PomodoroUI.circularPickerSize,
+        height: PomodoroUI.circularPickerSize,
         child: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8),

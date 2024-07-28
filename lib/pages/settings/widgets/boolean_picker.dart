@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tomato_timer/providers/ui.dart';
+import 'package:tomato_timer/providers/providers.dart';
 
 Widget booleanPicker({
   required void Function(bool) onToggle,

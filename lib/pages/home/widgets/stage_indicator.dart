@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tomato_timer/model/helper_types.dart';
-import 'package:tomato_timer/providers/ui.dart';
-
-import '../model/pomodoro.dart';
+import 'package:tomato_timer/models/models.dart';
+import 'package:tomato_timer/providers/providers.dart';
 
 Widget stageIndicator(PomodoroModel value, BuildContext context) {
   return Container(

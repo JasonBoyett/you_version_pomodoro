@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tomato_timer/model/helper_types.dart';
-import 'package:tomato_timer/model/pomodoro.dart';
+import 'package:tomato_timer/models/helper_types.dart';
+import 'package:tomato_timer/models/pomodoro.dart';
 import 'package:fake_async/fake_async.dart';
 
 void main() {

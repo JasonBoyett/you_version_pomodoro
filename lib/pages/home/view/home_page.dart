@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tomato_timer/model/pomodoro.dart';
-import 'package:tomato_timer/providers/context.dart';
-import 'package:tomato_timer/providers/ui.dart';
+import 'package:tomato_timer/providers/providers.dart';
 
-import 'package:tomato_timer/widgets/center_timer.dart';
-import 'package:tomato_timer/widgets/stage_indicator.dart';
-import 'package:tomato_timer/widgets/settings_dialog.dart';
+import '../widgets/widgets.dart';
+import 'package:tomato_timer/pages/settings/settings.dart';
 
 final pomodoroProvider = getPomodoroProvider();
 

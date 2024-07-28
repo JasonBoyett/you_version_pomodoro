@@ -2,18 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:tomato_timer/model/pomodoro.dart';
-import 'package:tomato_timer/model/preference_loader.dart';
-import 'package:tomato_timer/model/settings.dart';
-import 'package:tomato_timer/providers/ui.dart';
-import 'package:tomato_timer/widgets/boolean_picker.dart';
-import 'package:tomato_timer/widgets/color_pickers.dart';
-import 'package:tomato_timer/widgets/font_pickers.dart';
-import 'package:tomato_timer/widgets/home_page.dart';
-import 'package:tomato_timer/widgets/time_picker.dart';
-
-import '../model/helper_types.dart';
-import '../providers/context.dart';
+import 'package:tomato_timer/models/models.dart';
+import 'package:tomato_timer/providers/providers.dart';
+import 'package:tomato_timer/pages/home/home.dart';
+import 'package:tomato_timer/pages/settings/widgets/widgets.dart';
 
 // I am using this because I want certain behavior on
 // the first build of the settings dialog

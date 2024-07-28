@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tomato_timer/model/settings.dart';
-import 'package:tomato_timer/providers/ui.dart';
-
-import '../model/helper_types.dart';
+import 'package:tomato_timer/models/models.dart';
+import 'package:tomato_timer/providers/providers.dart';
 
 Widget timePicker(PomodoroStages stage, SettingsModel settingsModel) {
   return Container(
@@ -72,19 +70,6 @@ Widget _picker({
   );
 }
 
-String _ditermineStageText(PomodoroStages stage) {
-  switch (stage) {
-    case PomodoroStages.work:
-      return "pomodoro";
-    case PomodoroStages.shortBreak:
-      return "short break";
-    case PomodoroStages.longBreak:
-      return "long break";
-    default:
-      return "Work";
-  }
-}
-
 Widget _pickerButtons({
   required PomodoroStages stage,
   required SettingsModel settingsModel,
@@ -118,4 +103,19 @@ Widget _arrowButton(IconData icon, void Function() onPressed) {
       icon,
     ),
   );
+}
+
+// helper functions
+
+String _ditermineStageText(PomodoroStages stage) {
+  switch (stage) {
+    case PomodoroStages.work:
+      return "pomodoro";
+    case PomodoroStages.shortBreak:
+      return "short break";
+    case PomodoroStages.longBreak:
+      return "long break";
+    default:
+      return "Work";
+  }
 }

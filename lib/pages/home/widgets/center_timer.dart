@@ -1,13 +1,14 @@
-import 'package:tomato_timer/model/helper_types.dart';
-import 'package:tomato_timer/model/pomodoro.dart';
+import 'package:tomato_timer/models/models.dart';
 import 'package:flutter/material.dart';
-import 'package:tomato_timer/providers/ui.dart';
+import 'package:tomato_timer/providers/providers.dart';
+
+import 'background_circle.dart';
 
 Widget centerTimer(PomodoroModel model) {
   return Padding(
     padding: const EdgeInsets.all(20.0),
     child: Stack(alignment: Alignment.center, children: [
-      _backgroundCircle(),
+      backgroundCircle(),
       SizedBox(
         height: 300,
         width: 300,
@@ -51,34 +52,6 @@ Widget centerTimer(PomodoroModel model) {
       ),
     ]),
   );
-}
-
-Widget _backgroundCircle() {
-  return Stack(alignment: Alignment.center, children: [
-    SizedBox(
-      width: 365,
-      height: 365,
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: PomodoroUI.timerGradient,
-          boxShadow: [
-            PomodoroUI.timerShadow,
-          ],
-        ),
-      ),
-    ),
-    SizedBox(
-      width: 330,
-      height: 330,
-      child: Container(
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color.fromARGB(255, 22, 25, 50),
-        ),
-      ),
-    ),
-  ]);
 }
 
 // helper functions

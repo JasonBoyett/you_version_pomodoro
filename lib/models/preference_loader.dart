@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tomato_timer/model/helper_types.dart';
-import 'package:tomato_timer/model/pomodoro.dart';
+import 'package:tomato_timer/models/helper_types.dart';
+import 'package:tomato_timer/models/pomodoro.dart';
 
 class PreferenceLoader {
   final String _workTimeKey = 'workTime';

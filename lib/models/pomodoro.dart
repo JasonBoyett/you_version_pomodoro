@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:tomato_timer/model/helper_types.dart';
+import 'package:tomato_timer/models/helper_types.dart';
 import 'package:tomato_timer/providers/haptics.dart';
 
 const int secondsInMinute = 60;

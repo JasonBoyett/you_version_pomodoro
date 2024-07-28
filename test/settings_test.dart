@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tomato_timer/model/helper_types.dart';
-import 'package:tomato_timer/model/settings.dart';
-import 'package:tomato_timer/model/pomodoro.dart';
+import 'package:tomato_timer/models/helper_types.dart';
+import 'package:tomato_timer/models/settings.dart';
+import 'package:tomato_timer/models/pomodoro.dart';
 
 void main() {
   group('Basic behaviors', () {

@@ -22,8 +22,7 @@ class PomodoroUI {
   static TextStyle serif = GoogleFonts.robotoSlab();
 
   // sizes
-  static double circularPickerSize(BuildContext context) =>
-      MediaQuery.of(context).size.width < 400 ? 40 : 60;
+  static double circularPickerSize = 40;
 
   static TextScaler stageIndicatorFontScaler(BuildContext context) =>
       MediaQuery.of(context).size.width < 400
@@ -46,4 +45,10 @@ class PomodoroUI {
       Color.fromARGB(255, 14, 17, 42),
     ],
   );
+
+  static settingsDialogSizeOuter(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    return Size(width * 0.8, height * 0.8);
+  }
 }

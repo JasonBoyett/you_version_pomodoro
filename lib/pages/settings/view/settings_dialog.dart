@@ -152,7 +152,7 @@ class SettingsDialog extends ConsumerWidget {
             color: PomodoroUI.dividerColor,
             thickness: 2,
           ),
-          _sectionTitle("time (minutes)"),
+          sectionTitle("time (minutes)"),
           timePicker(PomodoroStages.work, settingsModel),
           timePicker(PomodoroStages.shortBreak, settingsModel),
           timePicker(PomodoroStages.longBreak, settingsModel),
@@ -162,7 +162,7 @@ class SettingsDialog extends ConsumerWidget {
             indent: 25,
             endIndent: 25,
           ),
-          _sectionTitle("font"),
+          sectionTitle("font"),
           Center(child: fontPickers(settingsModel, context)),
           Divider(
             color: PomodoroUI.dividerColor,
@@ -170,7 +170,7 @@ class SettingsDialog extends ConsumerWidget {
             indent: 25,
             endIndent: 25,
           ),
-          _sectionTitle("color"),
+          sectionTitle("color"),
           Center(child: colorPickers(settingsModel, context)),
           Divider(
             color: PomodoroUI.dividerColor,
@@ -178,7 +178,7 @@ class SettingsDialog extends ConsumerWidget {
             indent: 25,
             endIndent: 25,
           ),
-          _sectionTitle("display"),
+          sectionTitle("display"),
           booleanPicker(
             value: settingsModel.isShowingSeconds,
             onToggle: (value) {
@@ -197,22 +197,4 @@ _determineLeftPadding(double containerWidth, double width) {
   var offset = width / 2;
   var center = containerWidth / 2;
   return center - offset;
-}
-
-Widget _sectionTitle(String title) {
-  return Center(
-    child: Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Text(
-        title.toUpperCase(),
-        style: TextStyle(
-          letterSpacing: 5,
-          color: PomodoroUI.backgroundColor,
-          fontStyle: GoogleFonts.kumbhSans().fontStyle,
-          fontWeight: FontWeight.bold,
-        ),
-        textScaler: const TextScaler.linear(1),
-      ),
-    ),
-  );
 }

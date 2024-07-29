@@ -27,76 +27,75 @@ class SettingsDialog extends ConsumerWidget {
       settingsOpen = true;
     });
     return Dialog(
+      alignment: Alignment.center,
       backgroundColor: Colors.transparent,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.9,
+        height: PomodoroUI.settingsDialogSizeOuter(context).height,
+        width: PomodoroUI.settingsDialogSizeOuter(context).width,
         child: Stack(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.8,
-              width: MediaQuery.of(context).size.width * 0.8,
+              height: PomodoroUI.settingsDialogSizeInner(context).height,
+              width: PomodoroUI.settingsDialogSizeInner(context).width,
               child: _dialogBase(
                 pomodoroModel: pomodoroModel,
                 settingsModel: settingsModel,
                 context: context,
               ),
             ),
-            Positioned(
-              bottom: MediaQuery.of(context).size.height * 0.05 - 20,
-              left: _determineLeftPadding(
-                MediaQuery.of(context).size.width * 0.8,
-                140,
-              ),
-              height: 53,
-              width: 140,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: settingsModel.themeColor.color,
-                  foregroundColor: Colors.white,
-                ),
-                onPressed: () {
-                  pomodoroModel.setWorkTime(
-                    settingsModel.getStageTime(
-                      PomodoroStages.work,
-                    ),
-                  );
-                  pomodoroModel.setBreakTimeLong(
-                    settingsModel.getStageTime(
-                      PomodoroStages.longBreak,
-                    ),
-                  );
-                  pomodoroModel.setBreakTimeShort(
-                    settingsModel.getStageTime(
-                      PomodoroStages.shortBreak,
-                    ),
-                  );
-                  pomodoroModel.setIsShowingSeconds(
-                    settingsModel.isShowingSeconds,
-                  );
-                  pomodoroModel.setThemeColor(settingsModel.themeColor);
-                  pomodoroModel.setThemeFont(settingsModel.themeFont);
-                  loader.save(pomodoroModel);
-                  Navigator.of(context).pop();
-                },
-                onLongPress: () {
-                  settingsModel.hardReset();
-                  pomodoroModel.preferencesReset();
-                  loader.save(pomodoroModel);
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  "Apply",
-                  style: TextStyle(
-                    fontStyle: GoogleFonts.kumbhSans().fontStyle,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    shadows: const [
-                      Shadow(
-                        color: Colors.black,
-                        blurRadius: 1,
-                        offset: Offset(0.2, 0.2),
+            Positioned.fill(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: settingsModel.themeColor.color,
+                    foregroundColor: Colors.white,
+                    fixedSize: PomodoroUI.applyButtonSize,
+                  ),
+                  onPressed: () {
+                    pomodoroModel.setWorkTime(
+                      settingsModel.getStageTime(
+                        PomodoroStages.work,
                       ),
-                    ],
+                    );
+                    pomodoroModel.setBreakTimeLong(
+                      settingsModel.getStageTime(
+                        PomodoroStages.longBreak,
+                      ),
+                    );
+                    pomodoroModel.setBreakTimeShort(
+                      settingsModel.getStageTime(
+                        PomodoroStages.shortBreak,
+                      ),
+                    );
+                    pomodoroModel.setIsShowingSeconds(
+                      settingsModel.isShowingSeconds,
+                    );
+                    pomodoroModel.setThemeColor(settingsModel.themeColor);
+                    pomodoroModel.setThemeFont(settingsModel.themeFont);
+                    loader.save(pomodoroModel);
+                    Navigator.of(context).pop();
+                  },
+                  onLongPress: () {
+                    settingsModel.hardReset();
+                    pomodoroModel.preferencesReset();
+                    loader.save(pomodoroModel);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    "Apply",
+                    style: TextStyle(
+                      fontStyle: GoogleFonts.kumbhSans().fontStyle,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      shadows: const [
+                        Shadow(
+                          color: Colors.black,
+                          blurRadius: 1,
+                          offset: Offset(0.2, 0.2),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -191,10 +190,4 @@ class SettingsDialog extends ConsumerWidget {
       ),
     );
   }
-}
-
-_determineLeftPadding(double containerWidth, double width) {
-  var offset = width / 2;
-  var center = containerWidth / 2;
-  return center - offset;
 }

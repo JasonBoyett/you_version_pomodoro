@@ -1,4 +1,6 @@
+import 'package:device_type/device_type.dart';
 import 'package:flutter/material.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 @immutable
@@ -22,6 +24,9 @@ class PomodoroUI {
   static TextStyle serif = GoogleFonts.robotoSlab();
 
   // sizes
+
+  static Size applyButtonSize = const Size(140, 53);
+
   static double circularPickerSize = 40;
 
   static TextScaler stageIndicatorFontScaler(BuildContext context) =>
@@ -47,8 +52,48 @@ class PomodoroUI {
   );
 
   static settingsDialogSizeOuter(BuildContext context) {
+    var device = DeviceType.getDeviceType(context);
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    return Size(width * 0.8, height * 0.8);
+    // The library I'm using returns raw strings to represent the device type.
+    // Let it be known that I hate this and that I wish it returned an enum.
+    return device == 'Tablet'
+        ? Size(
+            width * 0.703,
+            // TODO: the commented out line below is the original value. Change it back once tablet UI is set up
+            // height * 0.479,
+            height * 0.623,
+          )
+        : Size(
+            width * 0.872,
+            height * 0.862,
+          );
+  }
+
+  static settingsDialogSizeInner(BuildContext context) {
+    var device = DeviceType.getDeviceType(context);
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    // enums are a thing library authors.
+    return device == 'Tablet'
+        ? Size(
+            width * 0.703,
+            // TODO: the commented out line below is the original value. Change it back once tablet UI is set up
+            // height * 0.453,
+            height * 0.6,
+          )
+        : Size(
+            width * 0.872,
+            height * 0.823,
+          );
+  }
+
+  // ui functions
+  static bool isTablet(BuildContext context) {
+    var device = DeviceType.getDeviceType(context);
+    // Again, I hate this.
+    // Library authors, please use enums.
+    // If this library was on GitHub, I'd make a PR to fix this madness.
+    return device == 'Tablet';
   }
 }

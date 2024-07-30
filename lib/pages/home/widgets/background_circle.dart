@@ -11,7 +11,8 @@ Widget backgroundCircle() {
           shape: BoxShape.circle,
           gradient: PomodoroUI.timerGradient,
           boxShadow: [
-            PomodoroUI.timerShadow,
+            PomodoroUI.timerShadowLight,
+            PomodoroUI.timerShadowDark,
           ],
         ),
       ),

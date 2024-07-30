@@ -15,7 +15,7 @@ extension PomodoroColorsExtension on PomodoroColors {
       case PomodoroColors.cyan:
         return PomodoroUI.cyan;
       case PomodoroColors.red:
-        return PomodoroUI.red;
+        return PomodoroUI.salmon;
     }
   }
 }

@@ -3,31 +3,55 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tomato_timer/models/models.dart';
 import 'package:tomato_timer/providers/providers.dart';
 
-Widget timePicker(PomodoroStages stage, SettingsModel settingsModel) {
-  return Container(
-    padding: const EdgeInsets.all(8),
-    child: Row(
-      children: [
-        Center(
-          child: SizedBox(
-            width: 100,
-            child: Text(
-              _ditermineStageText(stage),
-              style: TextStyle(
-                fontStyle: GoogleFonts.kumbhSans().fontStyle,
-                fontWeight: FontWeight.bold,
-                color: PomodoroUI.textMidDark,
+Widget timePicker(PomodoroStages stage, SettingsModel settingsModel,
+    {bool? isTablet}) {
+  isTablet ??= false;
+  return isTablet
+      ? Column(
+          children: [
+            Center(
+              child: SizedBox(
+                width: 100,
+                child: Text(
+                  _ditermineStageText(stage),
+                  style: TextStyle(
+                    fontStyle: GoogleFonts.kumbhSans().fontStyle,
+                    fontWeight: FontWeight.bold,
+                    color: PomodoroUI.textMidDark,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        _picker(
-          stage: stage,
-          settingsModel: settingsModel,
+            _picker(
+              stage: stage,
+              settingsModel: settingsModel,
+            )
+          ],
         )
-      ],
-    ),
-  );
+      : Padding(
+          padding: const EdgeInsets.only(left: 20.0, bottom: 6.0),
+          child: Row(
+            children: [
+              Center(
+                child: SizedBox(
+                  width: 100,
+                  child: Text(
+                    _ditermineStageText(stage),
+                    style: TextStyle(
+                      fontStyle: GoogleFonts.kumbhSans().fontStyle,
+                      fontWeight: FontWeight.bold,
+                      color: PomodoroUI.textMidDark,
+                    ),
+                  ),
+                ),
+              ),
+              _picker(
+                stage: stage,
+                settingsModel: settingsModel,
+              )
+            ],
+          ),
+        );
 }
 
 Widget _picker({

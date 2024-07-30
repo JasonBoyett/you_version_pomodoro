@@ -7,28 +7,55 @@ Widget booleanPicker({
   required bool value,
   required String text,
   required Color color,
+  bool? isTablet,
 }) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Center(
-        child: SizedBox(
-          width: 150,
-          child: Text(
-            text,
-            style: TextStyle(
-              fontStyle: GoogleFonts.kumbhSans().fontStyle,
-              fontWeight: FontWeight.bold,
-              color: PomodoroUI.textMidDark,
+  isTablet ??= false;
+  return isTablet
+      ? Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontStyle: GoogleFonts.kumbhSans().fontStyle,
+                      fontWeight: FontWeight.bold,
+                      color: PomodoroUI.textMidDark,
+                    ),
+                  ),
+                  Switch(
+                    value: value,
+                    onChanged: onToggle,
+                    activeColor: color,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-      Switch(
-        value: value,
-        onChanged: onToggle,
-        activeColor: color,
-      ),
-    ],
-  );
+          ],
+        )
+      : Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 150,
+              child: Text(
+                text,
+                style: TextStyle(
+                  fontStyle: GoogleFonts.kumbhSans().fontStyle,
+                  fontWeight: FontWeight.bold,
+                  color: PomodoroUI.textMidDark,
+                ),
+              ),
+            ),
+            Switch(
+              value: value,
+              onChanged: onToggle,
+              activeColor: color,
+            ),
+          ],
+        );
 }

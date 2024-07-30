@@ -1,6 +1,5 @@
 import 'package:device_type/device_type.dart';
 import 'package:flutter/material.dart';
-import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 @immutable
@@ -12,7 +11,7 @@ class PomodoroUI {
   static Color textMidDark = const Color.fromARGB(255, 30, 33, 63);
   static Color dividerColor = const Color.fromRGBO(227, 225, 225, 1);
   static Color cyan = const Color.fromARGB(255, 112, 243, 248);
-  static Color red = const Color.fromARGB(255, 248, 112, 112);
+  static Color salmon = const Color.fromARGB(255, 248, 112, 112);
   static Color purple = const Color.fromARGB(255, 216, 129, 248);
   static Color white = const Color.fromARGB(255, 255, 255, 255);
   static Color grey = const Color.fromARGB(255, 239, 241, 250);
@@ -36,9 +35,15 @@ class PomodoroUI {
 
   // complex ui styles
 
-  static BoxShadow timerShadow = const BoxShadow(
+  static BoxShadow timerShadowLight = const BoxShadow(
     color: Color.fromARGB(125, 29, 44, 90),
     offset: Offset(-50, -50),
+    blurRadius: 50,
+  );
+
+  static BoxShadow timerShadowDark = const BoxShadow(
+    color: Color.fromARGB(125, 18, 21, 48),
+    offset: Offset(50, 50),
     blurRadius: 50,
   );
 
@@ -60,9 +65,7 @@ class PomodoroUI {
     return device == 'Tablet'
         ? Size(
             width * 0.703,
-            // TODO: the commented out line below is the original value. Change it back once tablet UI is set up
-            // height * 0.479,
-            height * 0.623,
+            height * 0.479,
           )
         : Size(
             width * 0.872,
@@ -78,9 +81,7 @@ class PomodoroUI {
     return device == 'Tablet'
         ? Size(
             width * 0.703,
-            // TODO: the commented out line below is the original value. Change it back once tablet UI is set up
-            // height * 0.453,
-            height * 0.6,
+            height * 0.453,
           )
         : Size(
             width * 0.872,

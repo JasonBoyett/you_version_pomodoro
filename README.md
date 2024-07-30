@@ -11,9 +11,9 @@ A pomodro timer built for a technical interview for YouVersion.
 - [x] Allow user to change settings and have changes reflected in the timer.
 - [x] Persist settings between sessions.
 - [x] Impliment device vibration when stages change.
-- [ ] create tablet ui for settings.
-    - [ ] widgets withing settings ui are arranged differently between tablet and mobile
-    - [ ] propper sizing is applied to both tablet and mobile.
+- [x] create tablet ui for settings.
+    - [x] widgets withing settings ui are arranged differently between tablet and mobile
+    - [x] propper sizing is applied to both tablet and mobile.
     - [x] propper alighnment is applied to both tablet and mobile.
 
 ## Challenges

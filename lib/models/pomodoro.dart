@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:tomato_timer/models/helper_types.dart';
+import 'package:tomato_timer/models/models.dart';
 import 'package:tomato_timer/providers/haptics.dart';
 
 const int secondsInMinute = 60;
@@ -199,17 +199,16 @@ class PomodoroModel extends ChangeNotifier {
     if (currentStage == PomodoroStages.preStart) {
       return isShowingSeconds
           ? '$workTime:${'00'.padLeft(2, '0')}'
-          : '$workTime'.padLeft(2, '0');
+          : '$workTime';
     }
     if (_remainingTime.inSeconds < 0) {
       throw Exception('Timer reached Negative value');
     }
     int minutes = _remainingTime.inMinutes;
     int remainingSeconds = _remainingTime.inSeconds.remainder(secondsInMinute);
+
     if (!isShowingSeconds) {
-      return minutes > 0
-          ? '$minutes'.padLeft(2, '0')
-          : '$remainingSeconds'.padLeft(2, '0');
+      return minutes > 0 ? '$minutes' : '$remainingSeconds';
     }
     return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
   }

@@ -69,6 +69,7 @@ Widget _picker({
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Center(
               child: Padding(
@@ -98,18 +99,14 @@ Widget _pickerButtons({
   required PomodoroStages stage,
   required SettingsModel settingsModel,
 }) {
-  return Row(
+  return Column(
     children: [
-      Column(
-        children: [
-          _arrowButton(Icons.keyboard_arrow_up, () {
-            settingsModel.incrementStageTime(stage);
-          }),
-          _arrowButton(Icons.keyboard_arrow_down, () {
-            settingsModel.decrementStageTime(stage);
-          }),
-        ],
-      ),
+      _arrowButton(Icons.keyboard_arrow_up, () {
+        settingsModel.incrementStageTime(stage);
+      }),
+      _arrowButton(Icons.keyboard_arrow_down, () {
+        settingsModel.decrementStageTime(stage);
+      }),
     ],
   );
 }

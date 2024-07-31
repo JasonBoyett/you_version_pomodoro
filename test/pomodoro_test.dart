@@ -221,5 +221,26 @@ void main() {
         expect(model.getTimerString(), '1:00');
       });
     });
+
+    test(
+      'PomodoroModel returns proper timerString when only showing minutes remaining',
+      () {
+        var model = PomodoroModel.custom(
+          workTime: 3,
+          breakTimeShort: 2,
+          isShowingSeconds: false,
+        );
+        model.setTestEnvironment(true);
+
+        fakeAsync((async) {
+          model.start();
+          expect(model.getTimerString(), '3');
+          async.elapse(const Duration(minutes: 1));
+          expect(model.getTimerString(), '2');
+          async.elapse(const Duration(minutes: 1, seconds: 31));
+          expect(model.getTimerString(), '30');
+        });
+      },
+    );
   });
 }

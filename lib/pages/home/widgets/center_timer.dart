@@ -34,6 +34,7 @@ Widget centerTimer(PomodoroModel model) {
             ),
           ),
           TextButton(
+              key: const Key('startButton'),
               onLongPress: () {
                 model.reset();
               },

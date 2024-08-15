@@ -39,29 +39,18 @@ class SettingsDialog extends ConsumerWidget {
               width: PomodoroUI.settingsDialogSizeInner(context).width,
               height: PomodoroUI.settingsDialogSizeInner(context).height,
               child: PomodoroUI.isTablet(context)
-                  ? tabletDialog(
-                      context: context,
-                      settingsModel: settingsModel,
-                      pomodoroModel: pomodoroModel,
+                  ? TabletDialog(
                       openSetter: (bool value) {
                         settingsOpen = value;
                       },
                     )
-                  : mobileDialog(
-                      context: context,
-                      settingsModel: settingsModel,
-                      pomodoroModel: pomodoroModel,
+                  : MobileDialog(
                       openSetter: (bool value) {
                         settingsOpen = value;
                       },
                     ),
             ),
-            applyButton(
-              context: context,
-              settingsModel: settingsModel,
-              pomodoroModel: pomodoroModel,
-              loader: loader,
-            ),
+            const ApplyButton(),
           ],
         ),
       ),

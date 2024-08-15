@@ -12,7 +12,6 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var model = ref.watch(pomodoroProvider);
     return Scaffold(
       backgroundColor: PomodoroUI.textMidDark,
       body: Column(
@@ -21,7 +20,7 @@ class HomePage extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(25.0),
             child: Text(
-              "pomodoro",
+              "🍅",
               textScaler: const TextScaler.linear(2),
               style: TextStyle(
                 color: PomodoroUI.textLight,
@@ -29,8 +28,8 @@ class HomePage extends ConsumerWidget {
               ),
             ),
           ),
-          stageIndicator(model, context),
-          centerTimer(model),
+          const StageIndicator(),
+          const CenterTimer(),
           Padding(
             padding: const EdgeInsets.only(top: 100.0),
             child: TextButton(
